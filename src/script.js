@@ -1,9 +1,8 @@
 /*
-* https://frontendeval.com/questions/faq-component
-*
-* Create a re-usable "Frequently Asked Questions" component
-*/
-  
+ * https://frontendeval.com/questions/faq-component
+ *
+ * Create a re-usable "Frequently Asked Questions" component
+ */
 
 const FAQ = [
   {
@@ -16,37 +15,39 @@ const FAQ = [
   },
   {
     question: "How long do cats live",
-    answer: "Outdoor cats live 5 years on average. Indoor cats live 15 years on average.",
+    answer:
+      "Outdoor cats live 5 years on average. Indoor cats live 15 years on average.",
   },
 ];
 
 const FAQComponent = ({ questions }) => {
   // Create this component
-  const [visible,setVisible]=useState(false)
-  const [value,setValue]=useState('')
-  const handleOnClick = (passedValue)=>{
-    const filtered = questions.filter((i)=> i.question ===passedValue.question)
-    setValue(filtered[0])
-    setVisible(!visible)
-  }
+
+  const [value, setValue] = useState(0);
+  const handleOnClick = (index) => {
+    if (index === value) {
+      setValue(null);
+    } else setValue(index);
+  };
   return (
     <>
-      {questions.map((question,index)=>{
-        return <ul>
-          <li>{question.question}</li>
-          <button onClick={()=>handleOnClick(question)}>Read/Hide</button>
-          <li>{visible && value.answer=== question.answer&& question.answer}</li>
-        </ul>
+      {questions.map((question, index) => {
+        return (
+          <ul className="list">
+            <li>{question.question}</li>
+            <button onClick={() => handleOnClick(index)}>Read/Hide</button>
+            {value === index && <li className="answer">{question.answer} </li>}
+          </ul>
+        );
       })}
-      </>
+    </>
+  );
+};
 
-    )
-    }
+const { useState } = React;
 
-  
-  const { useState } = React;
 const App = () => {
   return <FAQComponent questions={FAQ} />;
-}
+};
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById("app"));
